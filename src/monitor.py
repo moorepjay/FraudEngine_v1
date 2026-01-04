@@ -29,7 +29,7 @@ if os.path.exists(DATA_FILE):
     velocity_alerts = df[velocity_mask]
 
     print("\n" + "=" * 30)
-    print("      FORENSIC CASE SUMMARY")
+    print("    FORENSIC CASE SUMMARY")
     print("\n" + "=" * 30)
 
     # For now we will report on users that are flagged for both alerts.
