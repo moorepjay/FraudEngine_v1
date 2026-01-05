@@ -58,3 +58,34 @@ for i in range(5000):
 
 txn_df = pd.DataFrame(ledger)
 txn_df.to_csv(transaction_path, index=False)
+
+# --- THE STING OPERATION: INJECTING THE SIGNATURE ---
+print("\n[!] ARCHITECT NOTE: Planting Forensic Evidence...")
+
+# 1. Target a random existing user
+target_id = user_df.sample(n=1)["u_id"].values[0]
+
+fraud_entries = []
+
+# Start the attack now
+attack_start = datetime.now()
+
+# 2. Create the Mathematical Signature (60 txns, 1s apart, $999.99)
+for i in range(60):
+    fraud_txn = {
+        "purchase_date": attack_start + timedelta(seconds=i),
+        "u_id": target_id,
+        "d_id": "SIGNATURE-BOT-9000",
+        "usd": 999.99,
+        "status": 1,
+    }
+    fraud_entries.append(fraud_txn)
+
+# 3. Append to the main ledger
+fraud_df = pd.DataFrame(fraud_entries)
+final_ledger = pd.concat([txn_df, fraud_df])
+
+# 4. Overwrite the CSV with the 5,060 transactions
+final_ledger.to_csv(transaction_path, index=False)
+
+print(f"STING COMPLETE: User {target_id} has been compromised.")
